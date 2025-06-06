@@ -2,20 +2,18 @@ const express = require('express');
 const EmailService = require('./EmailService');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 const emailService = new EmailService();
 
 app.use(express.json());
 
-app.post('/send-email', async (req, res) => {
-    const { to, subject, body } = req.body;
-    if (!to || !subject || !body) {
-        return res.status(400).json({ error: 'Missing required fields' });
-    }
+app.post('/email', async (req, res) => {
+   
+   
 
     try {
-        await emailService.sendEmail(to, subject, body);
-        res.status(200).json({ message: 'Email sent successfully' });
+        const response=await emailService.sendEmail(req.body);
+        res.status(200).json({ response});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
